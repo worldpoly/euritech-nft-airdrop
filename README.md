@@ -1,4 +1,4 @@
-# EURITECH (Bilişim Vadisi) NFT Airdrop
+# WORLDPOLY - EURITECH (Bilişim Vadisi) NFT Airdrop
 
 ## Available Scripts
 
