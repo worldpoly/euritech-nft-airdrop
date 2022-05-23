@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { hooks, metaMask } from "../connectors/metamask";
-import { ConnectWithSelect } from "./ConnectWithSelect";
-import { Card } from "./Card";
+import { Card, Button, CardActions, CardContent, Grid, Typography } from "@mui/material";
+import { getAddChainParameters } from "../chains";
+import { MetamaskLogo } from "./metamask-logo";
 
 export const MetamaskCard = () => {
-  const { useChainId, useAccounts, useError, useIsActivating, useIsActive, useProvider } = hooks;
+  const { useChainId, useAccounts, useError, useIsActivating, useIsActive } = hooks;
 
   const chainId = useChainId();
   const accounts = useAccounts();
@@ -13,27 +14,37 @@ export const MetamaskCard = () => {
 
   const isActive = useIsActive();
 
-  const provider = useProvider();
-
   // attempt to connect eagerly on mount
   useEffect(() => {
     void metaMask.connectEagerly();
   }, []);
 
+  const handleConnect = async () => {
+    void metaMask.activate(getAddChainParameters(56));
+  };
+
+  const handleDisconnect = async () => {
+    void metaMask.deactivate();
+  };
+
   return (
-    <Card>
-      <div>
-        <b>MetaMask</b>
-        <div style={{ marginBottom: "1rem" }} />
-      </div>
-      <div style={{ marginBottom: "1rem" }} />
-      <ConnectWithSelect
-        connector={metaMask}
-        chainId={chainId}
-        isActivating={isActivating}
-        error={error}
-        isActive={isActive}
-      />
+    <Card sx={{ minWidth: 275, backgroundColor: "rgba(0,0,0,0.6)" }}>
+      <CardContent>
+        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item>
+            <MetamaskLogo />
+          </Grid>
+        </Grid>
+      </CardContent>
+      <CardActions>
+        <Grid container direction="row" justifyContent="center" alignItems="center">
+          <Grid item>
+            <Button onClick={isActive ? handleDisconnect : handleConnect} sx={{ color: "#fff" }} size="large">
+              <Typography variant="h6">{error ? "Try again?" : isActive ? "Disconnect" : "Connect"}</Typography>
+            </Button>
+          </Grid>
+        </Grid>
+      </CardActions>
     </Card>
   );
 };
