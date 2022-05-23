@@ -1,32 +1,15 @@
-import { Grid } from "@mui/material";
-// import { useSnackbar } from "notistack";
-
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { MetamaskCard } from "./components/metamask-card";
-import { WalletConnectCard } from "./components/wallet-connect-card";
-import { isMobile } from "react-device-detect";
+import { Home } from "./pages/home";
+import { Login } from "./pages/login";
 
 function App() {
-  // const { enqueueSnackbar } = useSnackbar();
-
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      spacing={3}
-      sx={{ minHeight: "100vh!important" }}
-    >
-      {!isMobile && (
-        <Grid item>
-          <MetamaskCard />
-        </Grid>
-      )}
-      <Grid item>
-        <WalletConnectCard />
-      </Grid>
-    </Grid>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="login" element={<Login />} />
+      <Route path="*" element={<Login />} />
+    </Routes>
   );
 }
 
