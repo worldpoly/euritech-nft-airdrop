@@ -49,7 +49,7 @@ export function MetamaskLogo() {
 
   useEffect(() => {
     if (ref && ref.current != null) {
-      const logo = createLogo({
+      createLogo({
         width: 0.2,
         height: 0.2,
         followMouse: true,
