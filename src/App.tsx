@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import "./App.css";
 import { MetamaskCard } from "./components/metamask-card";
 import { WalletConnectCard } from "./components/wallet-connect-card";
+import { isMobile } from "react-device-detect";
 
 function App() {
   // const { enqueueSnackbar } = useSnackbar();
@@ -17,9 +18,11 @@ function App() {
       spacing={3}
       sx={{ minHeight: "100vh!important" }}
     >
-      <Grid item>
-        <MetamaskCard />
-      </Grid>
+      {!isMobile && (
+        <Grid item>
+          <MetamaskCard />
+        </Grid>
+      )}
       <Grid item>
         <WalletConnectCard />
       </Grid>
