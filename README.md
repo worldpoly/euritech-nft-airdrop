@@ -22,3 +22,4 @@ Your app is ready to be deployed!
 
 # Screenshoot
 ![Screenshoot](/doc/assets/lastest-state.png)
+![Screenshoot2](/doc/assets/timer.gif)
