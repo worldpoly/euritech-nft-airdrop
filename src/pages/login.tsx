@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MetamaskCard } from "../components/metamask-card";
 import { WalletConnectCard } from "../components/wallet-connect-card";
 import { isMobile } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 
+type LoginType = "metamask" | "walletconnect";
+
 export function Login() {
+  const navigateTo = useNavigate();
+  const [isLoggedIn, setIsLoggedInState] = useState<boolean>();
+  const [loginType, setLoginType] = useState<LoginType>();
+
+  const setIsLoggedIn = (auth: boolean, type: LoginType) => {
+    setIsLoggedInState(auth);
+    setLoginType(type);
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      console.log("isLoggedIn", isLoggedIn);
+      navigateTo("/");
+    }
+  }, [isLoggedIn, navigateTo]);
+
   return (
     <Grid
       container
@@ -16,11 +35,11 @@ export function Login() {
     >
       {!isMobile && (
         <Grid item>
-          <MetamaskCard />
+          <MetamaskCard setIsLoggedIn={setIsLoggedIn} />
         </Grid>
       )}
       <Grid item>
-        <WalletConnectCard />
+        <WalletConnectCard setIsLoggedIn={setIsLoggedIn} />
       </Grid>
     </Grid>
   );

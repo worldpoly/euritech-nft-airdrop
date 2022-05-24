@@ -1,9 +1,13 @@
 import { Card, Button, CardActions, CardContent, Grid, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { hooks, walletConnect } from "../connectors/walletConnect";
 import { ReactComponent as WalletConnectBanner } from "../assets/walletconnect-banner.svg";
 
-export function WalletConnectCard() {
+export function WalletConnectCard({
+  setIsLoggedIn,
+}: {
+  setIsLoggedIn: (auth: boolean, type: "metamask" | "walletconnect") => void;
+}) {
   const { useChainId, useAccounts, useError, useIsActivating, useIsActive } = hooks;
 
   const chainId = useChainId();
@@ -26,6 +30,10 @@ export function WalletConnectCard() {
     console.log("disconnect");
     void walletConnect.deactivate();
   };
+
+  useEffect(() => {
+    setIsLoggedIn(isActive, "walletconnect");
+  }, [isActive]);
 
   return (
     <Card sx={{ minWidth: 275, backgroundColor: "rgba(0,0,0,0.6)" }}>

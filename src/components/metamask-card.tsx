@@ -4,7 +4,11 @@ import { Card, Button, CardActions, CardContent, Grid, Typography } from "@mui/m
 import { getAddChainParameters } from "../chains";
 import { MetamaskLogo } from "./metamask-logo";
 
-export const MetamaskCard = () => {
+export const MetamaskCard = ({
+  setIsLoggedIn,
+}: {
+  setIsLoggedIn: (auth: boolean, type: "metamask" | "walletconnect") => void;
+}) => {
   const { useChainId, useAccounts, useError, useIsActivating, useIsActive } = hooks;
 
   const chainId = useChainId();
@@ -26,6 +30,10 @@ export const MetamaskCard = () => {
   const handleDisconnect = async () => {
     void metaMask.deactivate();
   };
+
+  useEffect(() => {
+    setIsLoggedIn(isActive, "metamask");
+  }, [isActive]);
 
   return (
     <Card sx={{ minWidth: 275, backgroundColor: "rgba(0,0,0,0.6)" }}>
