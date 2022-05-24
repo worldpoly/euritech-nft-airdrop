@@ -85,10 +85,10 @@ export function Timer({ expiryTimestamp, onExpire }: { expiryTimestamp: Date; on
     if (dot) {
       if (type === "space") {
         // Tween dot to coordinate to form number
-        TweenMax.TweenMax.to(dot, 0.85, {
+        TweenMax.TweenMax.to(dot, 0.5, {
           x: randomNumber(0, stageWidth),
           y: randomNumber(0, stageHeight),
-          alpha: 0.3,
+          alpha: 0.2,
           delay: 0,
           ease: EasyPack.Expo.easeInOut,
           onComplete: function () {
@@ -97,7 +97,7 @@ export function Timer({ expiryTimestamp, onExpire }: { expiryTimestamp: Date; on
         });
       } else {
         // Tween dot to coordinate to form number
-        TweenMax.TweenMax.to(dot, 0.85, {
+        TweenMax.TweenMax.to(dot, 0.5, {
           //1.5 + Math.round(Math.random() * 100) / 100
           x: pos.x + numberOffsetX,
           y: pos.y + numberOffsetY,
