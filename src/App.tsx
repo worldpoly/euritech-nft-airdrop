@@ -5,6 +5,8 @@ import { Login } from "./pages/login";
 import { Room } from "./pages/room";
 
 function App() {
+  return <Login />;
+  /*
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -13,6 +15,7 @@ function App() {
       <Route path="*" element={<Login />} />
     </Routes>
   );
+  */
 }
 
 export default App;
