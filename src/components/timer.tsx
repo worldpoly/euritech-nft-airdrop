@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, RefObject } from "react";
 import { useTimer } from "react-timer-hook";
 // @ts-ignore
 import * as TweenMax from "gsap/TweenMax";
@@ -7,14 +7,24 @@ import * as EasyPack from "gsap/EasePack";
 import "./timer.css";
 
 const stageWidth = window.innerWidth;
-const stageHeight = 350; //window.innerHeight;
+const stageHeight = window.innerHeight;
 
-const numberStageWidth = 800;
-const numberStageHeight = 350;
-const circleRadius = 2;
-const colors = ["61, 207, 236", "255, 244, 174", "255, 211, 218", "151, 211, 226"];
+const numberStageWidth = 1400;
+const numberStageHeight = 400;
+const circleRadius = 1;
+// const colors = ["61, 207, 236", "255, 244, 174", "255, 211, 218", "151, 211, 226"];
+// const colors = ["255, 255, 255", "21, 222, 245", "220,38,248", "87,156,255"];
+const colors = ["255, 255, 255", "255, 255, 255"];
 
-export function Timer({ expiryTimestamp, onExpire }: { expiryTimestamp: Date; onExpire: () => void }) {
+export function Timer({
+  expiryTimestamp,
+  onExpire,
+  ...rest
+}: {
+  expiryTimestamp: Date;
+  onExpire: () => void;
+  rest?: any;
+}) {
   const { seconds, minutes, hours, isRunning, start, pause, resume, restart } = useTimer({
     expiryTimestamp,
     onExpire,
@@ -85,25 +95,25 @@ export function Timer({ expiryTimestamp, onExpire }: { expiryTimestamp: Date; on
     if (dot) {
       if (type === "space") {
         // Tween dot to coordinate to form number
-        TweenMax.TweenMax.to(dot, 0.5, {
+        TweenMax.TweenMax.to(dot, 0.2, {
           x: randomNumber(0, stageWidth),
           y: randomNumber(0, stageHeight),
-          alpha: 0.2,
+          alpha: 0,
           delay: 0,
-          ease: EasyPack.Expo.easeInOut,
+          ease: EasyPack.Expo.easeIn,
           onComplete: function () {
             tweenDots(dot, "", "space");
           },
         });
       } else {
         // Tween dot to coordinate to form number
-        TweenMax.TweenMax.to(dot, 0.5, {
+        TweenMax.TweenMax.to(dot, 0.2, {
           //1.5 + Math.round(Math.random() * 100) / 100
           x: pos.x + numberOffsetX,
           y: pos.y + numberOffsetY,
           delay: 0,
           alpha: 1,
-          ease: EasyPack.Expo.easeInOut,
+          ease: EasyPack.Expo.easeIn,
           onComplete: function () {},
         });
       }
@@ -135,7 +145,7 @@ export function Timer({ expiryTimestamp, onExpire }: { expiryTimestamp: Date; on
       //	Clear stage of previous numbers
       numberStageCtx.clearRect(0, 0, numberStageWidth, numberStageHeight);
 
-      numberStageCtx.fillStyle = "#24282f";
+      numberStageCtx.fillStyle = "#ffffff";
       numberStageCtx.textAlign = "center";
       numberStageCtx.font = "bold 400px Lato";
 
@@ -231,7 +241,7 @@ export function Timer({ expiryTimestamp, onExpire }: { expiryTimestamp: Date; on
     init();
 
     const dots_ = [];
-    for (let i = 0; i < 3500; i++) {
+    for (let i = 0; i < 8000; i++) {
       // Create a dot
       const dot = new Dot(
         randomNumber(0, stageWidth),
@@ -257,14 +267,15 @@ export function Timer({ expiryTimestamp, onExpire }: { expiryTimestamp: Date; on
   useEffect(() => {
     if (initialized) {
       const s = seconds < 10 ? `0${seconds}` : seconds;
-      drawNumber(`${minutes}:${s}`, dots);
+      const h = hours === 0 ? "" : `${hours}:`;
+      drawNumber(`${h}${minutes}:${s}`, dots);
     }
-  }, [seconds, initialized]);
+  }, [hours, minutes, seconds, initialized, dots]);
 
   return (
-    <>
+    <div {...rest}>
       <canvas id="canvas-number" ref={canvasNumberRef}></canvas>
       <canvas id="canvas-dots" ref={canvasDotRef}></canvas>
-    </>
+    </div>
   );
 }
